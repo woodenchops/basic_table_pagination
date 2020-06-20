@@ -5,23 +5,35 @@ function App() {
 
   const URL_STRING = 'https://jsonplaceholder.typicode.com/posts';
   const POST_COUNT = 10;
+  const POST_SKIP_COUNT = 5;
+  const ACTION_TYPES = {prev: 'prev', next: 'next', start: 'start', end: 'end'};
 
   const PREV_POST_ACTIONS = {
-    type: 'prev',
+    type: ACTION_TYPES.prev,
     num: POST_COUNT
   };
 
+  const PREV_POST_SKIP_ACTIONS = {
+    type: ACTION_TYPES.prev,
+    num: POST_SKIP_COUNT
+  };
+
+  const NEXT_POST_SKIP_ACTIONS = {
+    type: ACTION_TYPES.next,
+    num: POST_SKIP_COUNT
+  };
+
   const NEXT_POST_ACTIONS = {
-    type: 'next',
+    type: ACTION_TYPES.next,
     num: POST_COUNT
   };
 
   const START_POST_ACTIONS = {
-    type: 'start'
+    type: ACTION_TYPES.start
   };
 
   const END_POST_ACTIONS = {
-    type: 'end'
+    type: ACTION_TYPES.end
   };
 
   const fetchData = async (url) => {
@@ -47,7 +59,7 @@ function App() {
 
   const loadPosts = (actions) => {
     switch(actions.type) {
-      case 'prev':
+      case ACTION_TYPES.prev:
         if(postIndexStart === 0) {
           alert('no previous posts');
         } else {
@@ -55,7 +67,7 @@ function App() {
           setPostIndexEnd(postIndexEnd - actions.num);
         }
       break;
-      case 'next':
+      case ACTION_TYPES.next:
         if(postIndexStart === (totalPostCount - POST_COUNT)) {
           alert('no more posts');
         } else {
@@ -63,11 +75,11 @@ function App() {
           setPostIndexEnd(postIndexEnd + actions.num);
         }
       break;
-      case 'start':
+      case ACTION_TYPES.start:
         setPostIndexStart(0);
         setPostIndexEnd(POST_COUNT);
       break;
-      case 'end':
+      case ACTION_TYPES.end:
         setPostIndexStart((totalPostCount - POST_COUNT));
         setPostIndexEnd(totalPostCount);
         break;
@@ -105,8 +117,10 @@ function App() {
       </tbody>
   </table>
   <button onClick={() => loadPosts(START_POST_ACTIONS)}>Start</button>
+  <button onClick={() => loadPosts(PREV_POST_SKIP_ACTIONS)}>Skip {PREV_POST_SKIP_ACTIONS.num} previous</button>
   <button onClick={() => loadPosts(PREV_POST_ACTIONS)}>Prev post</button>
   <button onClick={() => loadPosts(NEXT_POST_ACTIONS)}>Next post</button>
+  <button onClick={() => loadPosts(NEXT_POST_SKIP_ACTIONS)}>Skip {NEXT_POST_SKIP_ACTIONS.num} next</button>
   <button onClick={() => loadPosts(END_POST_ACTIONS)}>End</button>
 </div>
   );
