@@ -15,22 +15,22 @@ function App() {
 
   const PREV_POSTS = {
     type: ACTION_TYPES.prev,
-    num: POST_LIMIT
+    payload: POST_LIMIT
   };
 
   const SKIP_PREVIOUS_POSTS = {
     type: ACTION_TYPES.prev,
-    num: POST_SKIP_COUNT
+    payload: POST_SKIP_COUNT
   };
 
   const SKIP_NEXT_POSTS = {
     type: ACTION_TYPES.next,
-    num: POST_SKIP_COUNT
+    payload: POST_SKIP_COUNT
   };
 
   const NEXT_POSTS = {
     type: ACTION_TYPES.next,
-    num: POST_LIMIT
+    payload: POST_LIMIT
   };
 
   const GO_TO_POST_START = {
@@ -59,19 +59,19 @@ function App() {
   const loadPosts = (actions) => {
     switch(actions.type) {
       case ACTION_TYPES.prev:
-         (postIndexStart === POST_START) ? alert('no previous posts') : setPostIndexStart(postIndexStart - actions.num);
-      break;
-      case ACTION_TYPES.next:
-         (postIndexStart === POST_MAX) ? alert('no more posts') : setPostIndexStart(postIndexStart + actions.num); 
+         (postIndexStart === POST_START) ? alert('no previous posts') : setPostIndexStart(postIndexStart - actions.payload);
           break;
-          case ACTION_TYPES.start:
-            setPostIndexStart(POST_START);
-            break;
-          case ACTION_TYPES.end:
-            setPostIndexStart(POST_MAX);
-            break;
+      case ACTION_TYPES.next:
+         (postIndexStart === POST_MAX) ? alert('no more posts') : setPostIndexStart(postIndexStart + actions.payload); 
+          break;
+      case ACTION_TYPES.start:
+          setPostIndexStart(POST_START);
+          break;
+      case ACTION_TYPES.end:
+          setPostIndexStart(POST_MAX);
+          break;
       default:
-        return actions.num;
+        return actions.payload;
     }
   };
 
@@ -104,10 +104,10 @@ function App() {
       </tbody>
   </table>
   <button onClick={() => loadPosts(GO_TO_POST_START)}>Start</button>
-  <button onClick={() => loadPosts(SKIP_PREVIOUS_POSTS)}>Skip {SKIP_PREVIOUS_POSTS.num} previous</button>
+  <button onClick={() => loadPosts(SKIP_PREVIOUS_POSTS)}>Skip {SKIP_PREVIOUS_POSTS.payload} previous</button>
   <button onClick={() => loadPosts(PREV_POSTS)}>Prev post</button>
   <button onClick={() => loadPosts(NEXT_POSTS)}>Next post</button>
-  <button onClick={() => loadPosts(SKIP_NEXT_POSTS)}>Skip {SKIP_NEXT_POSTS.num} next</button>
+  <button onClick={() => loadPosts(SKIP_NEXT_POSTS)}>Skip {SKIP_NEXT_POSTS.payload} next</button>
   <button onClick={() => loadPosts(GO_TO_POST_END)}>End</button>
 </div>
   );
