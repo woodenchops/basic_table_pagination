@@ -8,31 +8,31 @@ function App() {
   const POST_SKIP_COUNT = 5;
   const ACTION_TYPES = {prev: 'prev', next: 'next', start: 'start', end: 'end'};
 
-  const PREV_POST_ACTIONS = {
+  const PREV_POSTS = {
     type: ACTION_TYPES.prev,
     num: POST_COUNT
   };
 
-  const PREV_POST_SKIP_ACTIONS = {
+  const SKIP_PREVIOUS_POSTS = {
     type: ACTION_TYPES.prev,
     num: POST_SKIP_COUNT
   };
 
-  const NEXT_POST_SKIP_ACTIONS = {
+  const SKIP_NEXT_POSTS = {
     type: ACTION_TYPES.next,
     num: POST_SKIP_COUNT
   };
 
-  const NEXT_POST_ACTIONS = {
+  const NEXT_POSTS = {
     type: ACTION_TYPES.next,
     num: POST_COUNT
   };
 
-  const START_POST_ACTIONS = {
+  const GO_TO_POST_START = {
     type: ACTION_TYPES.start
   };
 
-  const END_POST_ACTIONS = {
+  const GO_TO_POST_END = {
     type: ACTION_TYPES.end
   };
 
@@ -116,12 +116,12 @@ function App() {
       )}
       </tbody>
   </table>
-  <button onClick={() => loadPosts(START_POST_ACTIONS)}>Start</button>
-  <button onClick={() => loadPosts(PREV_POST_SKIP_ACTIONS)}>Skip {PREV_POST_SKIP_ACTIONS.num} previous</button>
-  <button onClick={() => loadPosts(PREV_POST_ACTIONS)}>Prev post</button>
-  <button onClick={() => loadPosts(NEXT_POST_ACTIONS)}>Next post</button>
-  <button onClick={() => loadPosts(NEXT_POST_SKIP_ACTIONS)}>Skip {NEXT_POST_SKIP_ACTIONS.num} next</button>
-  <button onClick={() => loadPosts(END_POST_ACTIONS)}>End</button>
+  <button onClick={() => loadPosts(GO_TO_POST_START)}>Start</button>
+  <button onClick={() => loadPosts(SKIP_PREVIOUS_POSTS)}>Skip {SKIP_PREVIOUS_POSTS.num} previous</button>
+  <button onClick={() => loadPosts(PREV_POSTS)}>Prev post</button>
+  <button onClick={() => loadPosts(NEXT_POSTS)}>Next post</button>
+  <button onClick={() => loadPosts(SKIP_NEXT_POSTS)}>Skip {SKIP_NEXT_POSTS.num} next</button>
+  <button onClick={() => loadPosts(GO_TO_POST_END)}>End</button>
 </div>
   );
 }
