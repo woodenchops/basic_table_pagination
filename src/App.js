@@ -3,14 +3,19 @@ import './App.css';
 
 function App() {
 
-  const URL_STRING = 'https://jsonplaceholder.typicode.com/posts';
-  const POST_COUNT = 10;
+  const [tableData, setTableData] = useState([]);
+  const [postIndexStart, setPostIndexStart] = useState(0);
+
+  const POST_LIMIT = 10;
+  const POST_START = 0;
+  const POST_MAX = 90;
+  const URL_STRING = `http://jsonplaceholder.typicode.com/posts?_start=${postIndexStart}&_limit=${POST_LIMIT}`;
   const POST_SKIP_COUNT = 5;
   const ACTION_TYPES = {prev: 'prev', next: 'next', start: 'start', end: 'end'};
 
   const PREV_POSTS = {
     type: ACTION_TYPES.prev,
-    num: POST_COUNT
+    num: POST_LIMIT
   };
 
   const SKIP_PREVIOUS_POSTS = {
@@ -25,7 +30,7 @@ function App() {
 
   const NEXT_POSTS = {
     type: ACTION_TYPES.next,
-    num: POST_COUNT
+    num: POST_LIMIT
   };
 
   const GO_TO_POST_START = {
@@ -42,47 +47,29 @@ function App() {
     return data;
   };
 
-  const [tableData, setTableData] = useState([]);
-  const [postIndexStart, setPostIndexStart] = useState(0);
-  const [postIndexEnd, setPostIndexEnd] = useState(POST_COUNT);
-  const [totalPostCount, setTotalPostCount] = useState(0);
-
   useEffect(() => {
 
     fetchData(URL_STRING)
       .then(res => {
-        setTableData(res.slice(postIndexStart, postIndexEnd));
-        setTotalPostCount(res.length);
+        setTableData(res);
       });
 
-  }, [postIndexStart, postIndexEnd]);
+  }, [postIndexStart, URL_STRING]);
 
   const loadPosts = (actions) => {
     switch(actions.type) {
       case ACTION_TYPES.prev:
-        if(postIndexStart === 0) {
-          alert('no previous posts');
-        } else {
-          setPostIndexStart(postIndexStart - actions.num);
-          setPostIndexEnd(postIndexEnd - actions.num);
-        }
+         (postIndexStart === POST_START) ? alert('no previous posts') : setPostIndexStart(postIndexStart - actions.num);
       break;
       case ACTION_TYPES.next:
-        if(postIndexStart === (totalPostCount - POST_COUNT)) {
-          alert('no more posts');
-        } else {
-          setPostIndexStart(postIndexStart + actions.num);
-          setPostIndexEnd(postIndexEnd + actions.num);
-        }
-      break;
-      case ACTION_TYPES.start:
-        setPostIndexStart(0);
-        setPostIndexEnd(POST_COUNT);
-      break;
-      case ACTION_TYPES.end:
-        setPostIndexStart((totalPostCount - POST_COUNT));
-        setPostIndexEnd(totalPostCount);
-        break;
+         (postIndexStart === POST_MAX) ? alert('no more posts') : setPostIndexStart(postIndexStart + actions.num); 
+          break;
+          case ACTION_TYPES.start:
+            setPostIndexStart(POST_START);
+            break;
+          case ACTION_TYPES.end:
+            setPostIndexStart(POST_MAX);
+            break;
       default:
         return actions.num;
     }
